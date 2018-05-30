@@ -3,24 +3,25 @@
 
 # usage
 if [ $# -eq 0 ]; then
-    echo "Usage: dos [sphinx] [command...]"
+    echo "Usage: dos [sphinx|gatling] [command...]"
     exit
 fi
 
 PWD=`pwd`
 
-# Git for Windows drive is strange...
-PWD=`echo $PWD | sed 's|/C|c:|'`
+# docker is strange...
+WINPWD=`echo $PWD | sed 's|/[Cc]|c:|'`
+WINPTY=winpty
 
 # 1st command
 case $1 in
 sphinx)
-    # sphinx command
     shift
     if [ $# -eq 0 ]; then
-        echo "dos sphinx build     - build docker image form Dockerfile."
-        echo "           make html - build sphinx docs."
-        echo "                       at $PWD"
+        echo "dos sphinx build      - build docker image form Dockerfile."
+        echo "           make html  - build sphinx docs."
+        echo "           make clean - clean build dir."
+        echo "at $WINPWD"
         exit
     fi
     case $1 in
@@ -29,8 +30,38 @@ sphinx)
         docker build -t sphinx ./sphinx
         ;;
     make)
-        echo docker run -tv $PWD:/work sphinx $*
-        docker run -tv $PWD:/work sphinx $*
+        echo docker run -tv $WINPWD:/work --rm sphinx $*
+        docker run -tv $WINPWD:/work --rm sphinx $*
         ;;
     esac
+    ;;
+
+gatling)
+    shift
+    if [ $# -eq 0 ]; then
+        echo "dos gatling build"
+        echo "            run"
+        echo "            clean"
+        exit
+    fi
+    case $1 in
+    build)
+        echo docker pull denvazh/gatling:latest
+        docker pull denvazh/gatling:latest
+        ;;
+    run)
+        echo docker run -t --rm -v $WINPWD/conf:/opt/gatling/conf \
+            -v $WINPWD/user-files:/opt/gatling/user-files \
+            -v $WINPWD/results:/opt/gatling/results \
+            denvazh/gatling
+        docker run -t --rm -v $WINPWD/conf:/opt/gatling/conf \
+            -v $WINPWD/user-files:/opt/gatling/user-files \
+            -v $WINPWD/results:/opt/gatling/results \
+            denvazh/gatling
+        ;;
+    clean)
+        rm -fr $WINPWD/results/*
+        ;;
+    esac
+    ;;
 esac
