@@ -1,0 +1,36 @@
+#!/bin/sh
+# dos is docker on script.
+
+# usage
+if [ $# -eq 0 ]; then
+    echo "Usage: dos [sphinx] [command...]"
+    exit
+fi
+
+PWD=`pwd`
+
+# Git for Windows drive is strange...
+PWD=`echo $PWD | sed 's|/C|c:|'`
+
+# 1st command
+case $1 in
+sphinx)
+    # sphinx command
+    shift
+    if [ $# -eq 0 ]; then
+        echo "dos sphinx build     - build docker image form Dockerfile."
+        echo "           make html - build sphinx docs."
+        echo "                       at $PWD"
+        exit
+    fi
+    case $1 in
+    build)
+        echo docker build -t sphinx ./sphinx
+        docker build -t sphinx ./sphinx
+        ;;
+    make)
+        echo docker run -tv $PWD:/work sphinx $*
+        docker run -tv $PWD:/work sphinx $*
+        ;;
+    esac
+esac
