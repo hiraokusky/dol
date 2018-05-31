@@ -1,49 +1,89 @@
-# dos
+# dol
 
-dos is docker on script.
+dockerを使ってセットアップなしにいろんなツールを実行するためのスクリプトです。
+現在、以下のツールに対応しています。
+
+* sphinx
+* gatling
+
+# Usage
+
+```
+dol [tool] [command...]
+```
+
+# Requirements
+
+* Docker
+* Git for Windows (bashが実行できる環境)
+
+# 準備
+
+1. リポジトリをcloneします。
+2. cloneしたディレクトリにパスを通します。
+3. 各ツールごとに、用意してあるDockfileでdocker imageをビルドします。
+
+```
+dol [tool] build
+```
 
 # sphinx
 
-build docker image.
+Sphinxは、Markdown等で記述したテキストをHTML等にビルドするツールです。
+
+* http://www.sphinx-doc.org/ja/stable/
+
+標準で対応している機能は以下の通りです。
+
+* commonmark==0.5.4
+* recommonmark
+* sphinx-autobuild
+* sphinx_rtd_theme
+* sphinxcontrib-mermaid
+
+Makefileのあるディレクトリで実行します。
+
+Sphinxの簡単なサンプルは、以下にあります。
+
+* https://github.com/hiraokusoy/sphinx-samples
+
+## ビルドしてHTMLファイルを作成する
 
 ```
-dos sphinx build
+dol sphinx html
 ```
 
-run sphinx command.
+## HTMLファイルを削除する
 
 ```
-dos sphinx make html
-```
-
-```
-dos sphinx make clean
+dol sphinx clean
 ```
 
 # gatling
 
-build docker image.
+Gatlingは、WebAPIのパフォーマンステストを実行するツールです。
 
-```
-dos gatling build
-```
+* https://gatling.io/
 
-run gatling.
+## シナリオを準備する
 
 以下のディレクトリにシナリオを1つ置きます。
 複数のシナリオには対応していません。
 
-./user-files/simulations/computerdatabase/
+    ./user-files/simulations/computerdatabase/
 
-実行.
+以下を実行すると、シナリオの実行が開始されます。
 
 ```
-dos gatling run
+dol gatling run
 ```
 
 結果ファイルは以下のディレクトリに出力されます。
+HTMLファイルになっており、ブラウザで結果を見ることができます。
 
-./results/
+    ./results/
+
+結果ファイルを削除するには以下を実行します。
 
 ```
 dos gatling clean
