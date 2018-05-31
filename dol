@@ -1,6 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-# usage
 if [ $# -eq 0 ]; then
     echo "Usage: dol [sphinx|gatling] [command...]"
     exit
@@ -8,14 +7,23 @@ fi
 
 PWD=`pwd`
 
-# docker is strange...
-WINPWD=`echo $PWD | sed 's|/[Cc]|c:|'`
-WINPTY=winpty
+if [ $WINDIR != "" ]; then
+    WINPWD=`echo $PWD | sed 's|/[Cc]|c:|'`
+    WINPTY=winpty
+fi
 
-# 1st command
+function check_build() {
+    check=`docker images -q $1`
+    if [ "$check" = "" ]; then
+        echo $2
+        eval $2
+    fi
+}
+
 case $1 in
 sphinx)
     shift
+    check_build sphinx "docker build -t sphinx ./sphinx"
     if [ $# -eq 0 ]; then
         echo "dol sphinx build - build docker image form Dockerfile."
         echo "           html  - build sphinx docs."
@@ -25,10 +33,6 @@ sphinx)
         exit
     fi
     case $1 in
-    build)
-        echo docker build -t sphinx ./sphinx
-        docker build -t sphinx ./sphinx
-        ;;
     html)
         echo docker run -tv $WINPWD:/work --rm sphinx make html
         docker run -tv $WINPWD:/work --rm sphinx make html
@@ -46,6 +50,7 @@ sphinx)
 
 gatling)
     shift
+    check_build denvazh/gatling "docker pull denvazh/gatling:latest"
     if [ $# -eq 0 ]; then
         echo "dol gatling build"
         echo "            run"
@@ -53,10 +58,6 @@ gatling)
         exit
     fi
     case $1 in
-    build)
-        echo docker pull denvazh/gatling:latest
-        docker pull denvazh/gatling:latest
-        ;;
     run)
         echo docker run -t --rm -v $WINPWD/conf:/opt/gatling/conf \
             -v $WINPWD/user-files:/opt/gatling/user-files \
