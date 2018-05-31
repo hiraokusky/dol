@@ -15,7 +15,9 @@ Sphinxは、Markdown等で記述したテキストをHTML等にビルドする�
 
 Makefileのあるディレクトリで実行します。
 
-Sphinxの簡単なサンプルは、以下にあります。
+## 準備
+
+sphnxのプロジェクトが必要なので、自前で用意するか、以下からcloneしてください。
 
 * https://github.com/hiraokusoy/sphinx-samples
 
