@@ -5,10 +5,14 @@ Gatlingは、WebAPIのパフォーマンステストを実行するツールで�
 
 * https://gatling.io/
 
-## シナリオを準備する
+## 準備
+
+conf, results, user-filesが必要なので、このディレクトリで実行してください。
+
+## シナリオを用意する
 
 以下のディレクトリにシナリオを1つ置きます。
-複数のシナリオには対応していません。
+複数のシナリオには対応していませんので、BasicSimulation.scalaを書き換えてください。
 
     ./user-files/simulations/computerdatabase/
 
