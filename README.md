@@ -14,8 +14,8 @@ dol [tool] [command...]
 
 # Requirements
 
-* Docker
-* Git for Windows (bashが実行できる環境)
+* docker
+* bash
 
 # 準備
 
