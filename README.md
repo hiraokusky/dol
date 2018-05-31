@@ -23,7 +23,7 @@ dol [tool] [command...]
 2. cloneしたディレクトリにパスを通します。
 3. 各ツールのimageをつくるために、cloneしたディレクトリで "dol 各ツール名" を実行します。
 
-# 使い方
+# 各ツールの使い方
 
 * sphinx - https://github.com/hiraokusoy/dol/tree/master/sphinx
 * gatling - https://github.com/hiraokusoy/dol/tree/master/gatling
