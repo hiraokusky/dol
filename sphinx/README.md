@@ -9,7 +9,6 @@ Sphinxは、Markdown等で記述したテキストをHTML等にビルドする�
 
 * commonmark==0.5.4
 * recommonmark
-* sphinx-autobuild
 * sphinx_rtd_theme
 * sphinxcontrib-mermaid
 
@@ -17,7 +16,7 @@ Makefileのあるディレクトリで実行します。
 
 ## 準備
 
-sphnxのプロジェクトが必要なので、自前で用意するか、以下からcloneしてください。
+sphinxのソースディレクトリが必要なので、自前で用意するか、以下からcloneしてください。
 
 * https://github.com/hiraokusoy/sphinx-samples
 
