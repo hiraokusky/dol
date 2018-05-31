@@ -1,9 +1,8 @@
 #!/bin/sh
-# dos is docker on script.
 
 # usage
 if [ $# -eq 0 ]; then
-    echo "Usage: dos [sphinx|gatling] [command...]"
+    echo "Usage: dol [sphinx|gatling] [command...]"
     exit
 fi
 
@@ -18,9 +17,10 @@ case $1 in
 sphinx)
     shift
     if [ $# -eq 0 ]; then
-        echo "dos sphinx build      - build docker image form Dockerfile."
-        echo "           make html  - build sphinx docs."
-        echo "           make clean - clean build dir."
+        echo "dol sphinx build - build docker image form Dockerfile."
+        echo "           html  - build sphinx docs."
+        echo "           clean - clean build dir."
+        echo "           *     - run sphninx command."
         echo "at $WINPWD"
         exit
     fi
@@ -28,6 +28,14 @@ sphinx)
     build)
         echo docker build -t sphinx ./sphinx
         docker build -t sphinx ./sphinx
+        ;;
+    html)
+        echo docker run -tv $WINPWD:/work --rm sphinx make html
+        docker run -tv $WINPWD:/work --rm sphinx make html
+        ;;
+    clean)
+        echo docker run -tv $WINPWD:/work --rm sphinx make clean
+        docker run -tv $WINPWD:/work --rm sphinx make clean
         ;;
     make)
         echo docker run -tv $WINPWD:/work --rm sphinx $*
@@ -39,7 +47,7 @@ sphinx)
 gatling)
     shift
     if [ $# -eq 0 ]; then
-        echo "dos gatling build"
+        echo "dol gatling build"
         echo "            run"
         echo "            clean"
         exit
